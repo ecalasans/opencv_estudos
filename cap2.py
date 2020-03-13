@@ -1,13 +1,8 @@
+import matplotlib.pyplot as plt
 import cv2
+import jupytercv
 
-img = cv2.imread('pythonlogo.png')
 
-print(img.size)
+img = cv2.imread('rosas.jpeg')
+jupytercv.imshow_grayscale(img)
 
-cv2.imshow('Imagem', img)
-cv2.waitKey(1000)
-
-img[0:100, 0:200] = (255,255,255)
-
-cv2.imshow("Imagem", img)
-cv2.waitKey(10000)
