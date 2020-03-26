@@ -6,7 +6,7 @@ imagem = cv2.imread('rx.jpg', cv2.IMREAD_GRAYSCALE)
 if not imagem.any():
     print("Não tem imagem")
 else:
-    jupytercv.imshow_grayscale(imagem)
+    jupytercv.imshowGrayscale(imagem)
     print("Dimensões:  x = %d \t y = %d" % (imagem.shape[1], imagem.shape[0]))
 
 p1x = int(input("p1x = "))
@@ -28,4 +28,4 @@ if retangulo:
         for y in range(y_i, y_f):
             imagem[x, y] = 255 - imagem[x, y]
 
-jupytercv.imshow_grayscale(imagem)
+jupytercv.imshowGrayscale(imagem)

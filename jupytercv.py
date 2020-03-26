@@ -3,8 +3,9 @@
 
 import cv2
 import matplotlib.pyplot as plt
+import numpy as np
 
-def imshow_grayscale(matImage):
+def imshowGrayscale(matImage):
     rgb = cv2.cvtColor(matImage, cv2.COLOR_BGR2RGB)
 
     ax = plt.gca()
@@ -13,3 +14,12 @@ def imshow_grayscale(matImage):
     ax.xaxis.set_ticks_position('top')
 
     plt.show()
+
+def extractRegion(imagem, region):
+    x_i = min(region[0][0], region[1][0])
+    x_f = max(region[0][0], region[1][0])
+
+    y_i = min(region[0][1], region[1][1])
+    y_f = max(region[0][1], region[1][1])
+
+    return np.array(imagem[x_i:x_f, y_i:y_f])
