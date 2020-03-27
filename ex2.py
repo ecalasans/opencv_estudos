@@ -2,7 +2,7 @@ import cv2
 import jupytercv
 import numpy as np
 
-imagem = cv2.imread('rx.jpg', cv2.IMREAD_GRAYSCALE)
+imagem = cv2.imread('starwars.jpg', cv2.IMREAD_GRAYSCALE)
 
 
 M = imagem.shape[0]
