@@ -3,7 +3,7 @@ import jupytercv
 import numpy as np
 
 imagem = cv2.imread('starwars.jpg', cv2.IMREAD_GRAYSCALE)
-
+jupytercv.imshowGrayscale(imagem)
 
 M = imagem.shape[0]
 N = imagem.shape[1]
