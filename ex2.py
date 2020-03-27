@@ -8,10 +8,10 @@ jupytercv.imshowGrayscale(imagem)
 M = imagem.shape[0]
 N = imagem.shape[1]
 
-q1 = [(0, 0), ((M)//2, (N)//2)]
-q2 = [(0, (N)//2), ((M)//2, N)]
-q3 = [((M)//2, 0), (M, (N)//2)]
-q4 = [((M)//2, (N)//2),(M, N)]
+q1 = [(0, 0), (M//2, N//2)]
+q2 = [(0, N//2), (M//2, N)]
+q3 = [(M//2, 0), (M, N//2)]
+q4 = [(M//2, N//2),(M, N)]
 
 
 # Trocar q1 com q4
