@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 '''
-Método imshoGrayscale - mostra a imagem em escala de cinza utilizando
+Função imshoGrayscale - mostra a imagem em escala de cinza utilizando
 Matplotilb
 
 Parâmetros:  matImage - matriz obtida pelo método cv2.imread do OpenCV ou
@@ -34,7 +34,7 @@ def imshowGrayscale(matImage):
 
 
 '''
-Método extractRegion - extrai uma região de uma imagem definida
+Função extractRegion - extrai uma região de uma imagem definida
 por um retângulo 
 
 Parâmetros:  imagem - matriz obtida pelo método cv2.imread do OpenCV ou

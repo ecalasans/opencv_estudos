@@ -25,12 +25,9 @@ im_q3 = jupytercv.extractRegion(imagem, q2)
 
 #  Construir nova imagem
 new_imagem_sup = np.hstack((im_q1, im_q2))
-print(new_imagem_sup.shape)
 new_imagem_inf = np.hstack((im_q3, im_q4))
-print(new_imagem_inf.shape)
-
 new_imagem = np.vstack((new_imagem_sup, new_imagem_inf))
-print(new_imagem.shape)
+
 
 jupytercv.imshowGrayscale(new_imagem)
 

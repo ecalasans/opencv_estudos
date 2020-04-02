@@ -4,5 +4,5 @@ import jupytercv
 
 
 img = cv2.imread('rosas.jpeg')
-jupytercv.imshow_grayscale(img)
+jupytercv.imshowGrayscale(img)
 
