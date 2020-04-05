@@ -35,9 +35,12 @@ for c in range(colunas):
     if(bolhas[linhas - 1, c] == 255):
         cv2.floodFill(bolhas, None, (c, linhas - 1), 0)
 
+#cv2.imwrite('sem_bordas.png', bolhas)
+
 # Pinta o fundo de outra cor para expor os buracos nas
 # bolhas
 cv2.floodFill(bolhas, None, (0,0), 80)
+#cv2.imwrite('fundo_cinza.png', bolhas)
 
 
 # Procurar por bolhas
@@ -50,14 +53,15 @@ for l in range(linhas - 1):
 
             cv2.floodFill(bolhas, None, (c, l), 100)
 
+        # Procura por buracos nas bolhas
         if((bolhas[l, c] == 100) and (bolhas[l, c + 1] == 0)):
             buracos += 1
             cv2.floodFill(bolhas, None, (c, l), 80)
             break
 
-cv2.imshow('', bolhas)
-cv2.waitKey(0)
-cv2.imwrite('resultado.png', bolhas)
+#cv2.imshow('', bolhas)
+#cv2.waitKey(0)
+cv2.imwrite('resultado2.png', bolhas)
 
 
 print("Temos {} bolhas, {} com buracos.".format(n_bolhas, buracos))
