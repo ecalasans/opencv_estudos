@@ -9,16 +9,7 @@ def pegaPixel(event, x, y, flags, param):
        print("Posição x = {} e y = {}".format(x, y))
        print("Cor do pixel = {}".format(swars[y,x]))
 
-
-
-cv2.namedWindow('starwars')
+cv2.imshow('starwars', swars)
 cv2.setMouseCallback('starwars', pegaPixel)
-
-while(1):
-    cv2.imshow('starwars', swars)
-    if cv2.waitKey(0):
-        break
-
-
-
+cv2.waitKey(0)
 cv2.destroyAllWindows()
