@@ -6,7 +6,8 @@ cv.namedWindow("Canvas")
 canvas = np.zeros((480, 641, 3), dtype='uint8')
 
 # Imagem de trabalho
-eiffel = cv.imread('eiffel.jpg', cv.COLOR_BGR2GRAY)
+eiffel = cv.imread('eiffel.jpg')
+im_result = np.zeros((eiffel.shape[0], eiffel.shape[1], 3), dtype='uint8')
 
 # Kernels dos filtros
 # Filtro da média
@@ -43,26 +44,133 @@ boost = np.array([
 ], dtype=np.float32)
 
 # Função para os botões
-def selRadioButton(state, vazio):
-    pass
+# Variável global que armazena o status do botão de mixagem com o laplaciano
+status_mix = 0
+# Aplica filtro laplaciano sobre outro filtro já aplicado
+def mixLaplaciano(state, param):
+    global status_mix
+    status_mix = state
+
+# Mantém imagem sem filtro
+def imagemNormal(state, param):
+    if state == 1:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
 
 # Aplica filtro da média
-def aplicaMedia():
-    im_result = cv.filter2D(eiffel, None, media, eiffel)
-    return im_result
+def aplicaMedia(state, param):
+    im_result = cv.filter2D(eiffel, None, media)
+    if state == 1:
+        if status_mix == 1:
+            im_result = cv.filter2D(im_result, None, laplacian)
+        else:
+            pass
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = im_result
+
+        cv.imshow('Canvas', canvas)
+    else:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
+
+# Aplica filtro gaussiano
+def aplicaGaussiano(state, param):
+    im_result = cv.filter2D(eiffel, None, gauss)
+    if state == 1:
+        if status_mix == 1:
+            im_result = cv.filter2D(im_result, None, laplacian)
+        else:
+            pass
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = im_result
+
+        cv.imshow('Canvas', canvas)
+    else:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
+# Aplica filtro detector de bordas horizontais
+def aplicaHorizontal(state, param):
+    im_result = cv.filter2D(eiffel, None, horizontal)
+    if state == 1:
+        if status_mix == 1:
+            im_result = cv.filter2D(im_result, None, laplacian)
+        else:
+            pass
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = im_result
+
+        cv.imshow('Canvas', canvas)
+    else:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
+# Aplica filtro detector de bordas verticais
+def aplicaVertical(state, param):
+    im_result = cv.filter2D(eiffel, None, vertical)
+    if state == 1:
+        if status_mix == 1:
+            im_result = cv.filter2D(im_result, None, laplacian)
+        else:
+            pass
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = im_result
+
+        cv.imshow('Canvas', canvas)
+    else:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
+# Aplica filtro laplaciano
+def aplicaLaplaciano(state, param):
+    if state == 1:
+        im_result = cv.filter2D(eiffel, None, laplacian)
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = im_result
+
+        cv.imshow('Canvas', canvas)
+    else:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
+# Aplica filtro boost
+def aplicaBoost(state, param):
+    im_result = cv.filter2D(eiffel, None, boost)
+    if state == 1:
+        if status_mix == 1:
+            im_result = cv.filter2D(im_result, None, laplacian)
+        else:
+            pass
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = im_result
+
+        cv.imshow('Canvas', canvas)
+    else:
+        canvas[:, 0:320, :] = eiffel
+        canvas[:, 321:641, :] = eiffel
+
+        cv.imshow('Canvas', canvas)
+
+cv.createButton("Normal", imagemNormal, 0, cv.QT_RADIOBOX, 1)
+cv.createButton("Media", aplicaMedia, 1, cv.QT_RADIOBOX, 0)
+cv.createButton("Gaussiano", aplicaGaussiano, 2, cv.QT_RADIOBOX, 0)
+cv.createButton("Horizontal", aplicaHorizontal, 3, cv.QT_RADIOBOX, 0)
+cv.createButton("Vertical", aplicaVertical, 4, cv.QT_RADIOBOX, 0)
+cv.createButton("Laplaciano", aplicaLaplaciano, 5, cv.QT_RADIOBOX, 0)
+cv.createButton("Boost", aplicaBoost, 6, cv.QT_RADIOBOX, 0)
+cv.createButton("Mixar com o Laplaciano", mixLaplaciano, 1,
+                cv.QT_CHECKBOX, 0)
 
 canvas[:, 0:320, :] = eiffel
 canvas[:, 321:641, :] = eiffel
-
-
-cv.createButton("Media", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Mediana", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Gaussiano", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Horizontal", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Vertical", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Laplaciano", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Boost", selRadioButton, None, cv.QT_RADIOBOX, 0)
-cv.createButton("Mixar com o Laplaciano", selRadioButton, None, cv.QT_CHECKBOX, 0)
 
 cv.imshow('Canvas', canvas)
 cv.waitKey(0)
