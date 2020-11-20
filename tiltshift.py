@@ -1,6 +1,7 @@
 import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
+from tkinter import messagebox as tkm
 
 ########################################################################
 # Definições
@@ -36,7 +37,7 @@ cv.namedWindow('Tilt Shift')
 def alfa(ls, li, d):
     x = np.zeros((im_h, im_w, 3), dtype='float32')
     l1 = ls - 180
-    l2 = 360 - li
+    l2 = li - 180
 
     for i in range(0, im_h):
         x[i, :, :] = i - 180
@@ -44,10 +45,9 @@ def alfa(ls, li, d):
     uns = np.ones((im_h, im_w, 3), dtype=np.float)
     alfa = (np.tanh((x-l1)/d) - np.tanh((x-l2)/d))*0.5
 
-    fig, ax = plt.subplots()
-    ax.plot(range(0, im_h), alfa[:, 0, 1])
-    ax.set_xlim(-200, 200)
-    plt.show()
+    # fig, ax = plt.subplots()
+    # ax.plot(range(0, im_h), alfa[:, 0, 1])
+    # plt.show()
 
     um_menos_alfa = np.subtract(uns, alfa)
     return alfa, um_menos_alfa
@@ -143,6 +143,7 @@ def ajustaPosicao(valor):
         cv.imshow("Tilt Shift", canvas)
 
         canvas[:, 0:480, :] = imagem
+
         if d == 0:
             canvas[:, 481:961, :] = imagem_media
         else:
@@ -156,6 +157,7 @@ def ajustaPosicao(valor):
 
         cv.imshow("Tilt Shift", canvas)
 
+
 # Função para produção do tilt shift e plotagem no canvas
 def tiltShift(ls, li, d):
     a, um_menos_a = alfa(ls, li, d)
@@ -167,22 +169,31 @@ def tiltShift(ls, li, d):
     im_2 = im_2.astype('uint8')
     return im_1 + im_2
 
+# Função que salva a saída num arquivo
+def salvaArquivo(state, param):
+    ts = tiltShift(linha_sup, linha_inf, d)
+    cv.imwrite('tiltshift_result.jpg',ts)
+    print("Imagem salva!!")
+
 
 # Criação dos controles
 # Trackbar para tamanho da faixa de foco
 cv.createTrackbar("Janela de Foco", "Tilt Shift", 0, im_h_meio, ajustaAltura)
 
 # Trackbar para regular a força do decaimento
-cv.createTrackbar("Forca do decaimento(d)", "Tilt Shift", 0, 10, ajustaForca)
+cv.createTrackbar("Forca do decaimento(d)", "Tilt Shift", 0, 50, ajustaForca)
 
 # Trackbar para ajustar a posição vertical da janela de foco
 cv.createTrackbar("Posicao na Janela", "Tilt Shift", 180, im_h, ajustaPosicao)
 
+# Cria o botão para salvar a figura
+cv.createButton("Salvar foto", salvaArquivo, None, cv.QT_PUSH_BUTTON)
 ########################################################################
 # Programação
 ########################################################################
-a, b = alfa(170, 190, 50)
+a, b = alfa(170, 250, 5)
 
 cv.imshow('Tilt Shift', canvas)
 
 cv.waitKey(0)
+cv.destroyAllWindows()
