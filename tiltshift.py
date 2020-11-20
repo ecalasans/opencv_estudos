@@ -1,6 +1,6 @@
 import numpy as np
 import cv2 as cv
-import scipy as sc
+import matplotlib.pyplot as plt
 
 ########################################################################
 # Definições
@@ -34,10 +34,21 @@ cv.namedWindow('Tilt Shift')
 
 # Função de ponderação(calcula alfa e 1-alfa)
 def alfa(ls, li, d):
-    x = np.zeros((im_h, im_w, 3), dtype=np.float)
+    x = np.zeros((im_h, im_w, 3), dtype='float32')
+    l1 = ls - 180
+    l2 = 360 - li
+
+    for i in range(0, im_h):
+        x[i, :, :] = i - 180
 
     uns = np.ones((im_h, im_w, 3), dtype=np.float)
-    alfa = (np.tanh((x-ls)/d) - np.tanh((x-li)/d))*0.5
+    alfa = (np.tanh((x-l1)/d) - np.tanh((x-l2)/d))*0.5
+
+    fig, ax = plt.subplots()
+    ax.plot(range(0, im_h), alfa[:, 0, 1])
+    ax.set_xlim(-200, 200)
+    plt.show()
+
     um_menos_alfa = np.subtract(uns, alfa)
     return alfa, um_menos_alfa
 
@@ -152,6 +163,8 @@ def tiltShift(ls, li, d):
     im_1 = np.multiply(a, imagem)
     im_2 = np.multiply(um_menos_a, imagem_media)
 
+    im_1 = im_1.astype('uint8')
+    im_2 = im_2.astype('uint8')
     return im_1 + im_2
 
 
@@ -168,5 +181,8 @@ cv.createTrackbar("Posicao na Janela", "Tilt Shift", 180, im_h, ajustaPosicao)
 ########################################################################
 # Programação
 ########################################################################
+a, b = alfa(170, 190, 50)
+
 cv.imshow('Tilt Shift', canvas)
+
 cv.waitKey(0)
