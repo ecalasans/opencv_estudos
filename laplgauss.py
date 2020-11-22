@@ -5,7 +5,7 @@ import cv2 as cv
 cv.namedWindow("Canvas")
 canvas = np.zeros((480, 641, 3), dtype='uint8')
 
-# Imagem de trabalho
+# Imagem de trabalho e imagem resultante
 eiffel = cv.imread('eiffel.jpg')
 im_result = np.zeros((eiffel.shape[0], eiffel.shape[1], 3), dtype='uint8')
 
@@ -46,6 +46,7 @@ boost = np.array([
 # Função para os botões
 # Variável global que armazena o status do botão de mixagem com o laplaciano
 status_mix = 0
+
 # Aplica filtro laplaciano sobre outro filtro já aplicado
 def mixLaplaciano(state, param):
     global status_mix
@@ -174,5 +175,5 @@ canvas[:, 321:641, :] = eiffel
 
 cv.imshow('Canvas', canvas)
 cv.waitKey(0)
-
+cv.destroyAllWindows()
 
