@@ -1,8 +1,6 @@
 import numpy as np
 import cv2 as cv
 import matplotlib.pyplot as plt
-from tkinter import messagebox as tkm
-
 ########################################################################
 # Definições
 ########################################################################
@@ -36,17 +34,21 @@ cv.namedWindow('Tilt Shift')
 # Função de ponderação(calcula alfa e 1-alfa)
 def alfa(ls, li, d):
     x = np.zeros((im_h, im_w, 3), dtype='float32')
-    l1 = ls - 180
-    l2 = li - 180
+    l1 = ls - im_h_meio
+    l2 = li - im_h_meio
 
     for i in range(0, im_h):
-        x[i, :, :] = i - 180
+        x[i, :, :] = i - im_h_meio
 
     uns = np.ones((im_h, im_w, 3), dtype=np.float)
     alfa = (np.tanh((x-l1)/d) - np.tanh((x-l2)/d))*0.5
 
     # fig, ax = plt.subplots()
     # ax.plot(range(0, im_h), alfa[:, 0, 1])
+    # ax.set_title('Função de ponderação α')
+    # ax.set_xlabel('Coord. x no sistema OpenCV')
+    # ax.set_ylabel('α')
+    # plt.savefig('imagens/alfa.jpg')
     # plt.show()
 
     um_menos_alfa = np.subtract(uns, alfa)
@@ -71,6 +73,8 @@ def ajustaAltura(valor):
 
     canvas[:, 0:480, :] = imagem
 
+    #  Mostra o efeito na imagem resultante se d for diferente de zero(evita
+    #  o erro de divisão por 0
     if d == 0:
         canvas[:, 481:961, :] = imagem_media
     else:
@@ -191,8 +195,7 @@ cv.createButton("Salvar foto", salvaArquivo, None, cv.QT_PUSH_BUTTON)
 ########################################################################
 # Programação
 ########################################################################
-a, b = alfa(170, 250, 5)
-
+#alfa(190, 250, 5)
 cv.imshow('Tilt Shift', canvas)
 
 cv.waitKey(0)
