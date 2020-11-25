@@ -1,10 +1,8 @@
+import cv2 as cv
 import numpy as np
 
-x = np.zeros((360, 10, 3), dtype=np.float)
-#x[:, 0, 1] = 1
+a = np.ones((2,2))
+print((4-7)*a)
 
-for i in range(0,360):
-    x[i, :, :] = -180 + i
 
-print(x)
 
