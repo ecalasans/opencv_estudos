@@ -120,7 +120,7 @@ def getGamaL(valor):
         D_0 = local_D0,
         imagem = zeroPadding(imagem=cinza)
     )
-
+    printParams(gama_L=valor/100, gama_H=local_gama_H, c=local_c, D0=local_D0, imagem=H_uv)
     cv.imshow("Filtro", H_uv)
     # return valor/100
 
@@ -138,7 +138,7 @@ def getGamaH(valor):
         D_0 = local_D0,
         imagem = zeroPadding(imagem=cinza)
     )
-
+    printParams(gama_L=local_gama_L, gama_H=1 if valor < 10 else valor/10, c=local_c, D0=local_D0, imagem=H_uv)
     cv.imshow("Filtro", H_uv)
     # return valor/10
 
@@ -155,7 +155,7 @@ def getC(valor):
         D_0 = local_D0,
         imagem = zeroPadding(imagem=cinza)
     )
-
+    printParams(gama_L=local_gama_L, gama_H=local_gama_H, c=valor/100, D0=local_D0, imagem=H_uv)
     cv.imshow("Filtro", H_uv)
 
 def getD0(valor):
@@ -171,8 +171,24 @@ def getD0(valor):
         D_0 = valor,
         imagem = zeroPadding(imagem=cinza)
     )
-
+    printParams(gama_L=local_gama_L, gama_H=local_gama_H, c=local_c, D0=valor, imagem=H_uv)
     cv.imshow("Filtro", H_uv)
+
+def printParams(gama_L = 0, gama_H = 0, c = 0, D0  = 0, imagem = None):
+    text_gama_L = "gama_L = {}".format(gama_L)
+    text_gama_H = "gama_H = {}".format(gama_H)
+    text_c = "c = {}".format(c)
+    text_D0 = "D0 = {}".format(D0)
+
+    cv.putText(imagem, text=text_gama_L, thickness=1, color=(0,0,0),
+               fontScale=0.4, org=(20,10), fontFace=cv.FONT_HERSHEY_SIMPLEX, lineType=4)
+    cv.putText(imagem, text=text_gama_H, thickness=1, color=(0, 0, 0),
+               fontScale=0.4, org=(20, 25), fontFace=cv.FONT_HERSHEY_SIMPLEX, lineType=4)
+    cv.putText(imagem, text=text_c, thickness=1, color=(0, 0, 0),
+               fontScale=0.4, org=(20, 40), fontFace=cv.FONT_HERSHEY_SIMPLEX, lineType=4)
+    cv.putText(imagem, text=text_D0, thickness=1, color=(0, 0, 0),
+               fontScale=0.4, org=(20, 55), fontFace=cv.FONT_HERSHEY_SIMPLEX, lineType=4)
+
 
 ########################################################################
 # Programação
