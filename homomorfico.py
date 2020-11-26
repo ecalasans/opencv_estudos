@@ -102,33 +102,40 @@ def aplicaFiltro(func_transf, imagem):
 # Funções para as trackbars
 def getGamaL(valor):
     # # Garante que gama_H seja maior que 1
-    # if cv.getTrackbarPos('gama_H', "Menu") < 10:
-    #     local_gama_H = 1
-    # else:
-    #     local_gama_H = cv.getTrackbarPos('gama_H', "Menu")/10
     local_gama_H = 1 if cv.getTrackbarPos('gama_H', "Menu") < 10 else cv.getTrackbarPos('gama_H', "Menu")/10
-    local_c = cv.getTrackbarPos("c", "Menu")/100
+    local_c = cv.getTrackbarPos("c", "Menu")/10
     local_D0 = cv.getTrackbarPos("D0", "Menu")
 
     print("De getGamaL -> {}, {}, {}, {}".format(valor/100, local_gama_H, local_c, local_D0))
-
+    cinza_padded = zeroPadding(imagem=cinza)
     H_uv = gaussModif(
         # gama_L=0.9, gama_H=5, c=3, D_0=1000, imagem=cinza_padded
         gama_L = valor/100,
         gama_H = local_gama_H,
         c = local_c,
         D_0 = local_D0,
-        imagem = zeroPadding(imagem=cinza)
+        imagem = cinza_padded
     )
     printParams(gama_L=valor/100, gama_H=local_gama_H, c=local_c, D0=local_D0, imagem=H_uv)
+
+    # Aplica o filtro e retorna a imagem filtrada
+    imagem_filtrada = aplicaFiltro(H_uv, cinza_padded)
+
+    # Restaura imagem ao tamanho original
+    imagem_restaurada = unpaddingImage(imagem_padded=imagem_filtrada, imagem=cinza)
+
+    # Exibição das imagens
     cv.imshow("Filtro", H_uv)
-    # return valor/100
+    cv.imshow("Imagem Filtrada", imagem_restaurada)
+
 
 def getGamaH(valor):
     local_gama_L = cv.getTrackbarPos('gama_L', "Menu")/100
-    local_c = cv.getTrackbarPos("c", "Menu")/100
+    local_c = cv.getTrackbarPos("c", "Menu")/10
     local_D0 = cv.getTrackbarPos("D0", "Menu")
     print("De getGamaH -> {}, {}, {}, {}".format(local_gama_L, valor/10, local_c, local_D0))
+
+    cinza_padded = zeroPadding(imagem=cinza)
 
     H_uv = gaussModif(
         # gama_L=0.9, gama_H=5, c=3, D_0=1000, imagem=cinza_padded
@@ -136,44 +143,75 @@ def getGamaH(valor):
         gama_H = 1 if valor < 10 else valor/10,
         c = local_c,
         D_0 = local_D0,
-        imagem = zeroPadding(imagem=cinza)
+        imagem = cinza_padded
     )
     printParams(gama_L=local_gama_L, gama_H=1 if valor < 10 else valor/10, c=local_c, D0=local_D0, imagem=H_uv)
+    # Aplica o filtro e retorna a imagem filtrada
+    imagem_filtrada = aplicaFiltro(H_uv, cinza_padded)
+
+    # Restaura imagem ao tamanho original
+    imagem_restaurada = unpaddingImage(imagem_padded=imagem_filtrada, imagem=cinza)
+
+    # Exibição das imagens
     cv.imshow("Filtro", H_uv)
-    # return valor/10
+    cv.imshow("Imagem Filtrada", imagem_restaurada)
 
 def getC(valor):
     local_gama_L = cv.getTrackbarPos('gama_L', "Menu")/100
     local_gama_H = 1 if cv.getTrackbarPos('gama_H', "Menu") < 10 else cv.getTrackbarPos('gama_H', "Menu")/10
     local_D0 = cv.getTrackbarPos("D0", "Menu")
     print("De getGamaC -> {}, {}, {}, {}".format(local_gama_L, local_gama_H, valor/10, local_D0))
+
+    cinza_padded = zeroPadding(imagem=cinza)
+
     H_uv = gaussModif(
         # gama_L=0.9, gama_H=5, c=3, D_0=1000, imagem=cinza_padded
         gama_L = local_gama_L,
         gama_H = local_gama_H,
-        c = valor/100,
+        c = valor/10,
         D_0 = local_D0,
-        imagem = zeroPadding(imagem=cinza)
+        imagem = cinza_padded
     )
-    printParams(gama_L=local_gama_L, gama_H=local_gama_H, c=valor/100, D0=local_D0, imagem=H_uv)
+    printParams(gama_L=local_gama_L, gama_H=local_gama_H, c=valor/10, D0=local_D0, imagem=H_uv)
+    # Aplica o filtro e retorna a imagem filtrada
+    imagem_filtrada = aplicaFiltro(H_uv, cinza_padded)
+
+    # Restaura imagem ao tamanho original
+    imagem_restaurada = unpaddingImage(imagem_padded=imagem_filtrada, imagem=cinza)
+
+    # Exibição das imagens
     cv.imshow("Filtro", H_uv)
+    cv.imshow("Imagem Filtrada", imagem_restaurada)
 
 def getD0(valor):
     local_gama_L = cv.getTrackbarPos('gama_L', "Menu")/100
     local_gama_H = 1 if cv.getTrackbarPos('gama_H', "Menu") < 10 else cv.getTrackbarPos('gama_H', "Menu")/10
-    local_c = cv.getTrackbarPos("c", "Menu")/100
+    local_c = cv.getTrackbarPos("c", "Menu")/10
     print("De getGamaL -> {}, {}, {}, {}".format(local_gama_L, local_gama_H, local_c, valor))
+
+    cinza_padded = zeroPadding(imagem=cinza)
+
     H_uv = gaussModif(
         # gama_L=0.9, gama_H=5, c=3, D_0=1000, imagem=cinza_padded
         gama_L = local_gama_L,
         gama_H = local_gama_H,
         c = local_c,
         D_0 = valor,
-        imagem = zeroPadding(imagem=cinza)
+        imagem = cinza_padded
     )
     printParams(gama_L=local_gama_L, gama_H=local_gama_H, c=local_c, D0=valor, imagem=H_uv)
-    cv.imshow("Filtro", H_uv)
 
+    # Aplica o filtro e retorna a imagem filtrada
+    imagem_filtrada = aplicaFiltro(H_uv, cinza_padded)
+
+    # Restaura imagem ao tamanho original
+    imagem_restaurada = unpaddingImage(imagem_padded=imagem_filtrada, imagem=cinza)
+
+    # Exibição das imagens
+    cv.imshow("Filtro", H_uv)
+    cv.imshow("Imagem Filtrada", imagem_restaurada)
+
+# Função para escrever na imagem do filtro os parâmetros selecionados
 def printParams(gama_L = 0, gama_H = 0, c = 0, D0  = 0, imagem = None):
     text_gama_L = "gama_L = {}".format(gama_L)
     text_gama_H = "gama_H = {}".format(gama_H)
@@ -206,29 +244,17 @@ cv.createTrackbar("c", "Menu", 1, 100, getC)
 # Frequencia de corte
 cv.createTrackbar("D0", "Menu", 30, 3000, getD0)
 
-# #  Zero padding para otimizar a DFT
-# cinza_padded = zeroPadding(cinza)
-
-# # Aplica o filtro e retorna a imagem filtrada
-# imagem_filtrada = aplicaFiltro(H_uv, cinza_padded)
-#
-# # Restaura imagem ao tamanho original
-# imagem_restaurada = unpaddingImage(imagem_padded=imagem_filtrada, imagem=cinza)
-
 ########################################################################
 # Exibição
 ########################################################################
 # Menu
 cv.imshow("Menu", menu)
 
-# # Imagem original
-# cv.imshow("Original", cinza)
+# Imagem original
+cv.imshow("Original", cinza)
 #
 # # FFT da imagem
 # plotaFFT(cinza_padded)
-
-# # Imagem filtrada
-# cv.imshow("Imagem filtrada", imagem_restaurada)
 
 cv.waitKey(0)
 cv.destroyAllWindows()
