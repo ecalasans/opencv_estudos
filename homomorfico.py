@@ -107,7 +107,7 @@ def getGamaL(valor):
     # else:
     #     local_gama_H = cv.getTrackbarPos('gama_H', "Menu")/10
     local_gama_H = 1 if cv.getTrackbarPos('gama_H', "Menu") < 10 else cv.getTrackbarPos('gama_H', "Menu")/10
-    local_c = cv.getTrackbarPos("c", "Menu")/10
+    local_c = cv.getTrackbarPos("c", "Menu")/100
     local_D0 = cv.getTrackbarPos("D0", "Menu")
 
     print("De getGamaL -> {}, {}, {}, {}".format(valor/100, local_gama_H, local_c, local_D0))
@@ -121,12 +121,12 @@ def getGamaL(valor):
         imagem = zeroPadding(imagem=cinza)
     )
 
-    # cv.imshow("Filtro", H_uv)
+    cv.imshow("Filtro", H_uv)
     # return valor/100
 
 def getGamaH(valor):
     local_gama_L = cv.getTrackbarPos('gama_L', "Menu")/100
-    local_c = cv.getTrackbarPos("c", "Menu")/10
+    local_c = cv.getTrackbarPos("c", "Menu")/100
     local_D0 = cv.getTrackbarPos("D0", "Menu")
     print("De getGamaH -> {}, {}, {}, {}".format(local_gama_L, valor/10, local_c, local_D0))
 
@@ -139,7 +139,7 @@ def getGamaH(valor):
         imagem = zeroPadding(imagem=cinza)
     )
 
-    # cv.imshow("Filtro", H_uv)
+    cv.imshow("Filtro", H_uv)
     # return valor/10
 
 def getC(valor):
@@ -151,17 +151,17 @@ def getC(valor):
         # gama_L=0.9, gama_H=5, c=3, D_0=1000, imagem=cinza_padded
         gama_L = local_gama_L,
         gama_H = local_gama_H,
-        c = valor/10,
+        c = valor/100,
         D_0 = local_D0,
         imagem = zeroPadding(imagem=cinza)
     )
 
-    # cv.imshow("Filtro", H_uv)
+    cv.imshow("Filtro", H_uv)
 
 def getD0(valor):
     local_gama_L = cv.getTrackbarPos('gama_L', "Menu")/100
     local_gama_H = 1 if cv.getTrackbarPos('gama_H', "Menu") < 10 else cv.getTrackbarPos('gama_H', "Menu")/10
-    local_c = cv.getTrackbarPos("c", "Menu")/10
+    local_c = cv.getTrackbarPos("c", "Menu")/100
     print("De getGamaL -> {}, {}, {}, {}".format(local_gama_L, local_gama_H, local_c, valor))
     H_uv = gaussModif(
         # gama_L=0.9, gama_H=5, c=3, D_0=1000, imagem=cinza_padded
@@ -172,7 +172,7 @@ def getD0(valor):
         imagem = zeroPadding(imagem=cinza)
     )
 
-    # cv.imshow("Filtro", H_uv)
+    cv.imshow("Filtro", H_uv)
 
 ########################################################################
 # Programação
