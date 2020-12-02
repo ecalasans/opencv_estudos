@@ -5,7 +5,7 @@ import numpy as np
 # Definições
 ########################################################################
 # Imagem de trabalho
-original = cv.imread('imagens/rxt.jpg')
+original = cv.imread('imagens/rxpicc.jpg')
 
 cinza = cv.cvtColor(original, cv.COLOR_BGR2GRAY)
 cinza_h = cinza.shape[0]
@@ -254,7 +254,7 @@ cv.imshow("Menu", menu)
 cv.imshow("Original", cinza)
 #
 # # FFT da imagem
-# plotaFFT(cinza_padded)
+plotaFFT(cinza)
 
 cv.waitKey(0)
 cv.destroyAllWindows()
