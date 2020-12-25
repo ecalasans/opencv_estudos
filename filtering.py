@@ -29,7 +29,16 @@ cv2.imshow('normal', swars)
 
 ### Sharpening  ###
 # Unsharp masking - uma versão smoothed é subtraída da imagem original
-smoothed = cv2.GaussianBlur(swars, (9,9), 10)
-unsharped = cv2.addWeighted(swars, 1.5, smoothed, -0.5, 0)
+# smoothed = cv2.GaussianBlur(swars, (9,9), 10)
+# unsharped = cv2.addWeighted(swars, 1.5, smoothed, -0.5, 0)
+#
+# cv2.imshow('smoothed', smoothed)
+# cv2.imshow('unsharped', unsharped)
+
+### Aplicando filtros nativos ###
+filtro = np.array([[0.0, 1.0, 0.0], [1.0, 2.0, 1.0], [0.0, 1.0, 0.0]]) / 40
+aplicada = cv2.filter2D(swars, -1, filtro)
+
+cv2.imshow('filtro', aplicada)
 
 cv2.waitKey(0)

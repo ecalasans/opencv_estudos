@@ -3,27 +3,49 @@ import numpy as np
 
 swars = cv2.imread('starwars.jpg')
 
-# Scaling
-# aum = cv2.resize(swars, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_LINEAR)
+# 1.  Translação
+# Matriz de translação: [[1 0 Tx][0 1 Ty]]
+h, w = swars.shape[:2]
+print(swars.shape)
 
-height, width = swars.shape[:2]
-# Translating
-#M = np.float32([[1,0,200], [0,1,30]]) # Matriz de translação
+T = np.float32([[1, 0, w/4], [0, 1, h/4]])
+transl = cv2.warpAffine(swars, T, (w, h))
 
-#Rotating
-#M = cv2.getRotationMatrix2D((width/2, height/2), 36, 1)
+#2.  Rotação
+# Matriz de Rotação:  [[cos x -sen x][sen x cos x]]
+R = cv2.getRotationMatrix2D((w/2, h/2), 45, 1)
+rot = cv2.warpAffine(swars, R, (w, h))
 
-#Affine
-#pts_1 = np.float32([[135, 45], [385, 45], [135, 230]])
-#pts_2 = np.float32([[135, 45], [385, 45], [150, 230]])
-#M = cv2.getAffineTransform(pts_1, pts_2)
-#img = cv2.warpAffine(swars, M, (width, height))
+#3.  Scaling
+scal1 = cv2.resize(swars, None, fx=0.6, fy=0.6)
+scal2 = cv2.resize(swars, None, fx=0.6, fy=0.6, interpolation=cv2.INTER_CUBIC)
+scal3 = cv2.resize(swars, (900,400), interpolation=cv2.INTER_AREA)
 
-#Cropping
-img = swars[80:200, 30:330]
+#4.  Pyramiding
+smaller = cv2.pyrDown(swars)
+larger = cv2.pyrUp(swars)
 
-# Aplicando filtros
-# Blurring
+#5.  Cropping
+sr, sc = int(h *.25), int(w *.25)
+er, ec = int(h *.5), int(w * .5)
 
-cv2.imshow('', img)
+cropped = swars[sr:er, sc:ec]
+
+#5.  Funções aritméricas com imagens
+# Adição
+M = np.ones(swars.shape, dtype="uint8") * 58
+adicao = cv2.add(swars, M)
+subtracao = cv2.subtract(swars, M)
+#cv2.imshow('Translação', transl)
+#cv2.imshow('Rotação', rot)
+#cv2.imshow('INTER_LINEAR', scal1)
+#cv2.imshow('INTER_CUBIC', scal2)
+#cv2.imshow('INTER_AREA', scal3)
+#cv2.imshow('Pequeno', smaller)
+#cv2.imshow('Grande', larger)
+#cv2.imshow('Cropped', cropped)
+cv2.imshow('Adicao', adicao)
+cv2.imshow('Subtracao', subtracao)
+cv2.imshow('', swars)
 cv2.waitKey(0)
+cv2.destroyAllWindows()
