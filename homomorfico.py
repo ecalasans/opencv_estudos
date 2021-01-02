@@ -5,7 +5,7 @@ import numpy as np
 # Definições
 ########################################################################
 # Imagem de trabalho
-original = cv.imread('imagens/rxpicc.jpg')
+original = cv.imread('imagens/picc.jpeg')
 
 cinza = cv.cvtColor(original, cv.COLOR_BGR2GRAY)
 cinza_h = cinza.shape[0]

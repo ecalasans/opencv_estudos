@@ -5,7 +5,7 @@ import time
 
 rd.seed(np.int(time.time()))
 
-RAIO = 5
+RAIO = 10
 
 img = cv.imread('imagens/lion.jpg')
 canvas = cv.imread('imagens/lion.jpg')
